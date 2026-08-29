@@ -1,7 +1,8 @@
 use std::{env, fs, path::PathBuf, process::Command};
 
 const WASM_TARGET: &str = "wasm32-unknown-unknown";
-const WASM_FILE: &str = "vanilla_aruco_wasm.wasm";
+const WASM_ARTIFACT: &str = "vanilla_aruco_wasm.wasm";
+const PLUGIN_FILE: &str = "aruco.wasm";
 
 fn workspace_root() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -41,8 +42,8 @@ fn build_wasm(root: &PathBuf) {
         .join("target")
         .join(WASM_TARGET)
         .join("release")
-        .join(WASM_FILE);
-    let destination = root.join(WASM_FILE);
+        .join(WASM_ARTIFACT);
+    let destination = root.join(PLUGIN_FILE);
     fs::copy(&source, &destination).unwrap_or_else(|error| {
         panic!(
             "failed to copy {} to {}: {error}",

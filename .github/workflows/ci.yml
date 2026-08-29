@@ -45,10 +45,19 @@ jobs:
           typst-version: 0.13.0
 
       - name: Compile example
-        run: typst compile --root . examples/basic.typ "$RUNNER_TEMP/vanilla-aruco-example.pdf"
+        run: |
+          package_root="$RUNNER_TEMP/typst-packages/preview/vanilla-aruco/0.1.0"
+          mkdir -p "$package_root"
+          cp lib.typ internal.typ aruco.wasm typst.toml "$package_root/"
+          cp -a examples "$package_root/"
+          typst compile --package-path "$RUNNER_TEMP/typst-packages" \
+            "$package_root/examples/basic.typ" "$RUNNER_TEMP/vanilla-aruco-example.pdf"
 
       - name: Compile Typst tests
         run: typst compile --root . tests/compile.typ "$RUNNER_TEMP/vanilla-aruco-tests.pdf"
 
       - name: Compile showcase
-        run: typst compile --root . examples/showcase.typ "$RUNNER_TEMP/vanilla-aruco-showcase.pdf"
+        run: |
+          package_root="$RUNNER_TEMP/typst-packages/preview/vanilla-aruco/0.1.0"
+          typst compile --package-path "$RUNNER_TEMP/typst-packages" \
+            "$package_root/examples/showcase.typ" "$RUNNER_TEMP/vanilla-aruco-showcase.pdf"

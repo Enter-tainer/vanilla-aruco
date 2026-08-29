@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Rust, WASM, and Typst checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+          components: rustfmt, clippy
+
+      - name: Cache Rust build
+        uses: Swatinem/rust-cache@v2
+
+      - name: Check formatting
+        run: cargo fmt --all -- --check
+
+      - name: Run tests
+        run: cargo test --locked
+
+      - name: Run Clippy
+        run: cargo clippy --locked --all-targets --all-features -- -D warnings
+
+      - name: Build WASM plugin
+        run: cargo run --locked --manifest-path xtask/Cargo.toml -- build-wasm
+
+      - name: Install Typst
+        uses: typst-community/setup-typst@v5
+        with:
+          typst-version: 0.13.0
+
+      - name: Compile example
+        run: typst compile --root . examples/basic.typ "$RUNNER_TEMP/vanilla-aruco-example.pdf"
+
+      - name: Compile Typst tests
+        run: typst compile --root . tests/compile.typ "$RUNNER_TEMP/vanilla-aruco-tests.pdf"
+
+      - name: Compile showcase
+        run: typst compile --root . examples/showcase.typ "$RUNNER_TEMP/vanilla-aruco-showcase.pdf"

@@ -1,0 +1,19 @@
+[package]
+name = "vanilla-aruco-wasm"
+version = "0.1.0"
+edition = "2021"
+publish = false
+license = "MIT"
+description = "Rust/WASM backend for vanilla-aruco"
+
+[workspace]
+members = ["xtask"]
+resolver = "2"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+ciborium = "0.2"
+wasm-minimal-protocol = "0.2"

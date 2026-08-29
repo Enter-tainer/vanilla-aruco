@@ -1,0 +1,12 @@
+# Used by package tooling; the manifest has the authoritative exclude list.
+.github
+scripts
+xtask
+tests
+examples
+Cargo.toml
+Cargo.lock
+about.toml
+Justfile
+src
+target

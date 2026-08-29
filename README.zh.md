@@ -53,16 +53,15 @@ Rust 后端把黑色模块的暴露边转换成无向边图，按照直行/左�
 ## 开发
 
 ```sh
-just build-wasm
-# 或：cargo run --locked --manifest-path xtask/Cargo.toml -- build-wasm
+cargo run --locked --manifest-path xtask/Cargo.toml -- build-wasm
 cargo test --locked
 typst compile --root . examples/showcase.typ /tmp/vanilla-aruco-showcase.pdf
 ```
 
 CI 会在 push 和 pull request 时执行检查。Release 和 Typst packages 发布保持手动。
 
-构建命令由 `Justfile` 暴露，实际的文件复制和进程调用由无依赖的 Rust
-`xtask` 完成，因此 Windows、macOS 和 Linux 使用同一套构建逻辑。
+构建命令由无依赖的 Rust `xtask` 完成，实际的文件复制和进程调用使用 Rust
+标准库，因此 Windows、macOS 和 Linux 使用同一套构建逻辑。
 
 ## 许可证
 

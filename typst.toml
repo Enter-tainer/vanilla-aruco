@@ -22,7 +22,6 @@ exclude = [
   ".gitignore",
   "Cargo.toml",
   "Cargo.lock",
-  "Justfile",
   "about.toml",
   "src",
   "target",

@@ -7,6 +7,5 @@ examples
 Cargo.toml
 Cargo.lock
 about.toml
-Justfile
 src
 target

@@ -68,8 +68,7 @@ package requires Typst 0.13.0 or newer.
 ## Development
 
 ```sh
-just build-wasm
-# or: cargo run --locked --manifest-path xtask/Cargo.toml -- build-wasm
+cargo run --locked --manifest-path xtask/Cargo.toml -- build-wasm
 cargo fmt --all -- --check
 cargo test --locked
 cargo clippy --locked --all-targets --all-features -- -D warnings
@@ -80,9 +79,9 @@ typst compile --root . examples/showcase.typ /tmp/vanilla-aruco-showcase.pdf
 The CI workflow runs these checks on pushes and pull requests. Release and
 registry publishing are intentionally manual.
 
-The build task is exposed through `Justfile`, while the actual file and
-process operations live in the dependency-free Rust `xtask` binary. This keeps
-the development command consistent across Windows, macOS, and Linux.
+The build task lives in the dependency-free Rust `xtask` binary. It performs
+the file and process operations through Rust's standard library, keeping the
+development command consistent across Windows, macOS, and Linux.
 
 ## License
 
